@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(shopt -s dotglob)",
+      "Bash(mv /Users/MarioAlberto/Desktop/Ideas/paginaProfesional/template-profesional/* /Users/MarioAlberto/Desktop/Ideas/paginaProfesional/)",
+      "Bash(mv /Users/MarioAlberto/Desktop/Ideas/paginaProfesional/template-profesional/.* /Users/MarioAlberto/Desktop/Ideas/paginaProfesional/)",
+      "Bash(npx shadcn@latest init -d)"
+    ]
+  }
+}
