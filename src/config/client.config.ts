@@ -16,7 +16,7 @@ export const clientConfig = {
   },
   servicios: [
     { id: 'consulta-inicial', nombre: 'Consulta Inicial', precio: 500, duracion: 60 },
-    { id: 'seguimiento', nombre: 'Seguimiento', precio: 350, duracion: 45 },
+    { id: 'seguimiento', nombre: 'Seguimiento', precio: 350, duracion: 60 },
   ],
   horarios: {
     diasHabiles: ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'],
