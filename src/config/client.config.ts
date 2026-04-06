@@ -6,7 +6,9 @@ export const clientConfig = {
     logo: '/logo.svg',
     email: 'contacto@negocio.com',
     telefono: '+52 667 000 0000',
-    direccion: 'Dirección física si aplica',
+    whatsapp: '526670000000',
+    direccion: 'Monte Urales 579, Montebello, 80227 Culiacán Rosales, Sin.',
+    googleMapsUrl: 'https://maps.google.com/?q=Monte+Urales+579,+Montebello,+80227+Culiacán+Rosales,+Sin.',
     timezone: 'America/Mexico_City',
   },
   tema: {

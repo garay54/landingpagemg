@@ -115,8 +115,7 @@ export function WizardAgendar({ servicios, diasBloqueados }: WizardAgendarProps)
     }
 
     if (result.data) {
-      // TODO: Sprint 3 — redirigir a pago con citaId
-      router.push(`/confirmacion?cita=${result.data.citaId}`);
+      router.push(`/pago?cita=${result.data.citaId}`);
     }
   }
 

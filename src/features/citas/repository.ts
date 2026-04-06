@@ -74,3 +74,25 @@ export async function createCita(cita: {
   }
   return data;
 }
+
+export async function getCitaById(id: string): Promise<Cita | null> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from('citas')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) return null;
+  return data;
+}
+
+export async function actualizarEstadoCita(id: string, estado: string): Promise<void> {
+  const supabase = await createClient();
+  const { error } = await supabase
+    .from('citas')
+    .update({ estado, updated_at: new Date().toISOString() })
+    .eq('id', id);
+
+  if (error) throw new Error(`Error actualizando cita: ${error.message}`);
+}
