@@ -5,13 +5,15 @@ export const loginSchema = z.object({
   password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
 });
 
-export const registerSchema = z.object({
-  nombre: z.string().min(2, 'El nombre debe tener al menos 2 caracteres'),
-  apellido: z.string().min(2, 'El apellido debe tener al menos 2 caracteres'),
+export const recuperarContrasenaSchema = z.object({
   email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'La contraseña debe tener al menos 6 caracteres'),
-  telefono: z.string().optional(),
 });
 
 export type LoginDTO = z.infer<typeof loginSchema>;
-export type RegisterDTO = z.infer<typeof registerSchema>;
+export type RecuperarContrasenaDTO = z.infer<typeof recuperarContrasenaSchema>;
+
+export type AuthActionResult = {
+  error?: string;
+  success?: string;
+  fieldErrors?: Record<string, string[]>;
+};

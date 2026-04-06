@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button';
 const navLinks = [
   { href: '/', label: 'Inicio' },
   { href: '/agendar', label: 'Agendar' },
-  { href: '/login', label: 'Iniciar Sesión' },
 ];
 
 export function Navbar() {
