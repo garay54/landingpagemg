@@ -5,7 +5,17 @@
       "Bash(shopt -s dotglob)",
       "Bash(mv /Users/MarioAlberto/Desktop/Ideas/paginaProfesional/template-profesional/* /Users/MarioAlberto/Desktop/Ideas/paginaProfesional/)",
       "Bash(mv /Users/MarioAlberto/Desktop/Ideas/paginaProfesional/template-profesional/.* /Users/MarioAlberto/Desktop/Ideas/paginaProfesional/)",
-      "Bash(npx shadcn@latest init -d)"
+      "Bash(npx shadcn@latest init -d)",
+      "Bash(npx shadcn@latest add input card badge dialog label separator skeleton sonner --overwrite)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm run:*)",
+      "Bash(git remote:*)",
+      "Bash(git rm:*)",
+      "Bash(git push:*)",
+      "Bash(npm ls:*)"
     ]
   }
 }

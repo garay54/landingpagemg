@@ -1,7 +1,6 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useRef } from 'react';
 import type { Servicio } from '@/features/citas/types';
 import { agendarCitaAction } from '@/features/citas/actions';
 import { agendarCitaSchema } from '@/lib/validations/cita.schema';
@@ -9,13 +8,16 @@ import { SelectorServicio } from './selector-servicio';
 import { CalendarioDisponibilidad } from './calendario-disponibilidad';
 import { SelectorHora } from './selector-hora';
 import { FormularioPaciente } from './formulario-paciente';
+import { PagoClient } from '@/features/pagos/components/pago-client';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Calendar } from 'lucide-react';
 
 interface WizardAgendarProps {
   servicios: Servicio[];
   diasBloqueados: string[];
+  servicioPreseleccionado?: string | null;
 }
 
 type Paso = 'servicio' | 'fecha' | 'hora' | 'datos' | 'confirmar';
@@ -28,11 +30,27 @@ const PASOS: { key: Paso; label: string }[] = [
   { key: 'confirmar', label: 'Confirmar' },
 ];
 
-export function WizardAgendar({ servicios, diasBloqueados }: WizardAgendarProps) {
-  const router = useRouter();
+export function WizardAgendar({ servicios, diasBloqueados, servicioPreseleccionado }: WizardAgendarProps) {
   const [paso, setPaso] = useState<Paso>('servicio');
   const [servicioId, setServicioId] = useState<string | null>(null);
   const [fecha, setFecha] = useState<string | null>(null);
+  const [citaConfirmada, setCitaConfirmada] = useState(false);
+  const [citaId, setCitaId] = useState<string | null>(null);
+  const lastPreseleccionado = useRef<string | null>(null);
+
+  // Auto-select service when servicioPreseleccionado changes
+  useEffect(() => {
+    if (
+      servicioPreseleccionado &&
+      servicioPreseleccionado !== lastPreseleccionado.current
+    ) {
+      lastPreseleccionado.current = servicioPreseleccionado;
+      setServicioId(servicioPreseleccionado);
+      setFecha(null);
+      setHora(null);
+      setPaso('fecha');
+    }
+  }, [servicioPreseleccionado]);
   const [hora, setHora] = useState<string | null>(null);
   const [datosPaciente, setDatosPaciente] = useState({
     nombre_paciente: '',
@@ -115,7 +133,8 @@ export function WizardAgendar({ servicios, diasBloqueados }: WizardAgendarProps)
     }
 
     if (result.data) {
-      router.push(`/pago?cita=${result.data.citaId}`);
+      setCitaId(result.data.citaId);
+      setCitaConfirmada(true);
     }
   }
 
@@ -129,6 +148,46 @@ export function WizardAgendar({ servicios, diasBloqueados }: WizardAgendarProps)
     });
   }
 
+  if (citaConfirmada && citaId) {
+    return (
+      <div className="mx-auto max-w-2xl space-y-6">
+        {/* Step header */}
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10">
+            <span className="text-3xl">✓</span>
+          </div>
+          <h3 className="text-xl font-bold">¡Cita reservada!</h3>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Tu cita está guardada. Completa el pago para confirmarla definitivamente.
+          </p>
+        </div>
+
+        {/* Payment widget */}
+        <PagoClient citaId={citaId} failedStatus={false} />
+
+        {/* Reset option */}
+        <div className="pt-2 text-center">
+          <button
+            type="button"
+            onClick={() => {
+              setCitaConfirmada(false);
+              setCitaId(null);
+              setServicioId(null);
+              setFecha(null);
+              setHora(null);
+              setDatosPaciente({ nombre_paciente: '', email_paciente: '', telefono_paciente: '', notas: '' });
+              setPaso('servicio');
+            }}
+            className="inline-flex items-center gap-1.5 text-xs text-muted-foreground underline underline-offset-2 hover:text-foreground"
+          >
+            <Calendar className="h-3 w-3" />
+            Cancelar y agendar otra cita
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-2xl space-y-6">
       {/* Progress bar */}
@@ -136,7 +195,7 @@ export function WizardAgendar({ servicios, diasBloqueados }: WizardAgendarProps)
         {PASOS.map((p, i) => (
           <div key={p.key} className="flex flex-1 items-center">
             <div
-              className={`h-2 w-full rounded-full ${
+              className={`h-2 w-full rounded-full transition-colors duration-300 ${
                 i <= pasoActualIndex ? 'bg-primary' : 'bg-muted'
               }`}
             />

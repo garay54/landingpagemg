@@ -12,6 +12,7 @@ interface PagoClientProps {
 
 export function PagoClient({ citaId, failedStatus }: PagoClientProps) {
   const [initPoint, setInitPoint] = useState<string | null>(null);
+  const [returnCitaId, setReturnCitaId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -27,6 +28,7 @@ export function PagoClient({ citaId, failedStatus }: PagoClientProps) {
           setError(data.error);
         } else {
           setInitPoint(data.init_point);
+          setReturnCitaId(data.cita_id ?? citaId);
         }
         setLoading(false);
       })
@@ -55,13 +57,17 @@ export function PagoClient({ citaId, failedStatus }: PagoClientProps) {
           <div className="text-4xl">✕</div>
           <h1 className="text-xl font-bold">Error</h1>
           <p className="text-sm text-muted-foreground">{error}</p>
-          <Button onClick={() => window.location.href = '/agendar'} className="w-full">
+          <Button onClick={() => window.location.href = '/#agendar'} className="w-full">
             Volver a agendar
           </Button>
         </CardContent>
       </Card>
     );
   }
+
+  const returnUrl = returnCitaId
+    ? `/?cita=${returnCitaId}&status=approved`
+    : '/';
 
   return (
     <Card className="w-full">
@@ -75,12 +81,24 @@ export function PagoClient({ citaId, failedStatus }: PagoClientProps) {
         <h1 className="text-xl font-bold">Completar pago</h1>
         <p className="text-sm text-muted-foreground">
           Serás redirigido a MercadoPago para completar el pago de forma segura.
+          Al finalizar, regresarás automáticamente aquí con la confirmación.
         </p>
         {initPoint && (
           <a href={initPoint}>
             <Button className="w-full">Pagar con MercadoPago</Button>
           </a>
         )}
+
+        {/* Manual fallback — shown below the pay button */}
+        <p className="pt-2 text-xs text-muted-foreground">
+          ¿Ya completaste el pago y no fuiste redirigido?{' '}
+          <a
+            href={returnUrl}
+            className="font-medium text-primary underline underline-offset-2 hover:no-underline"
+          >
+            Ver confirmación »
+          </a>
+        </p>
       </CardContent>
     </Card>
   );
