@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createClient, createAdminClient } from '@/lib/supabase/server';
 import type { Cita, Servicio, HorarioBloqueado } from './types';
 
 export async function getServiciosActivos(): Promise<Servicio[]> {
@@ -88,7 +88,7 @@ export async function getCitaById(id: string): Promise<Cita | null> {
 }
 
 export async function actualizarEstadoCita(id: string, estado: string): Promise<void> {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase
     .from('citas')
     .update({ estado, updated_at: new Date().toISOString() })

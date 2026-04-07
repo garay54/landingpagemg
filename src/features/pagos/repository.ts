@@ -1,4 +1,4 @@
-import { createClient } from '@/lib/supabase/server';
+import { createAdminClient } from '@/lib/supabase/server';
 import type { Pago } from './types';
 
 export async function createPago(pago: {
@@ -7,7 +7,7 @@ export async function createPago(pago: {
   monto: number;
   moneda: string;
 }): Promise<Pago> {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data, error } = await supabase
     .from('pagos')
     .insert(pago)
@@ -19,7 +19,7 @@ export async function createPago(pago: {
 }
 
 export async function getPagoPorPreferenceId(preferenceId: string): Promise<Pago | null> {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data, error } = await supabase
     .from('pagos')
     .select('*')
@@ -31,7 +31,7 @@ export async function getPagoPorPreferenceId(preferenceId: string): Promise<Pago
 }
 
 export async function getPagoPorMPPaymentId(mpPaymentId: string): Promise<Pago | null> {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data, error } = await supabase
     .from('pagos')
     .select('*')
@@ -43,7 +43,7 @@ export async function getPagoPorMPPaymentId(mpPaymentId: string): Promise<Pago |
 }
 
 export async function getPagoPorCitaId(citaId: string): Promise<Pago | null> {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { data, error } = await supabase
     .from('pagos')
     .select('*')
@@ -60,7 +60,7 @@ export async function actualizarPago(
   id: string,
   update: { estado: string; mp_payment_id?: string; metadata?: Record<string, unknown> }
 ): Promise<void> {
-  const supabase = await createClient();
+  const supabase = await createAdminClient();
   const { error } = await supabase
     .from('pagos')
     .update(update)
