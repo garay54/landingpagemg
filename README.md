@@ -1,3 +1,19 @@
+# LandingPageMG
+
+## Portfolio summary / Resumen de portafolio
+
+landingpagemg is a web product foundation for professional service landing pages. It focuses on clear presentation, service discovery, appointment-oriented flows, and deployment-ready frontend architecture.
+
+landingpagemg es una base de producto web para landing pages de profesionistas. Se enfoca en presentacion clara, descubrimiento de servicios, flujos orientados a agenda y una arquitectura frontend lista para despliegue.
+
+**Technologies / Tecnologias:** TypeScript, React/Next.js, Tailwind CSS, Supabase, Vercel-oriented deployment.
+
+**Project status / Estado:** Public web/product engineering showcase.
+
+**Next steps / Proximos pasos:** add screenshots, deployment URL, and a concise product demo section.
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
